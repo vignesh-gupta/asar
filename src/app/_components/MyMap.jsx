@@ -11,16 +11,24 @@ export default function MyMap({ positions }) {
 
   return (
     <MapContainer
-      center={positions.length > 0 ? [positions[0].lat, positions[0].long] : DEFAULT_CENTER}
+      center={
+        positions.length > 0
+          ? [positions[0].lat, positions[0].long]
+          : DEFAULT_CENTER
+      }
       height={400}
+      className="mx-4"
       zoom={13}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {positions.map((pos, index) => (
-        <Marker key={`marker-${pos.lat}-${pos.long}`} position={[pos.lat, pos.long]}></Marker>
+      {positions.map((pos) => (
+        <Marker
+          key={`marker-${pos.lat}-${pos.long}`}
+          position={[pos.lat, pos.long]}
+        ></Marker>
       ))}
     </MapContainer>
   );
