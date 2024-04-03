@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 
 export default function DisplayData() {
-  const [noOfData, setNoOfData] = useState(1);
+  const [noOfData, setNoOfData] = useState(5);
   const [data, setData] = useState([]);
 
   useEffect(() => {

@@ -20,7 +20,7 @@ export default function MyMap({ positions }) {
   return (
     <MapContainer
       center={
-        positions.length > 0
+        positions.length > 0 && positions[0]?.lat && positions[0]?.long
           ? [positions[0].lat, positions[0].long]
           : DEFAULT_CENTER
       }
@@ -54,12 +54,14 @@ export default function MyMap({ positions }) {
         </LayersControl.BaseLayer>
       </LayersControl>
 
-      {positions.map((pos) => (
-        <Marker
-          key={`marker-${pos.lat}-${pos.long}`}
-          position={[pos.lat, pos.long]}
-        ></Marker>
-      ))}
+      {positions.map((pos) =>
+        pos?.lat && pos?.long ? (
+          <Marker
+            key={`marker-${pos?.lat}-${pos?.long}`}
+            position={[pos?.lat, pos?.long]}
+          />
+        ) : null
+      )}
     </MapContainer>
   );
 }
