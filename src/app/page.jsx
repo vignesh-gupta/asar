@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 
 export default function DisplayData() {
-  const [noOfData, setNoOfData] = useState(5);
+  const [noOfData, setNoOfData] = useState(1);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -27,12 +27,12 @@ export default function DisplayData() {
   });
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center gap-5">
+    <div className="flex flex-col items-center justify-center w-full h-screen gap-5">
       <div>
         <p>
           Number of Data:
           <input
-            className="border p-3 border-black rounded-lg ml-1"
+            className="p-3 ml-1 border border-black rounded-lg"
             value={noOfData}
             onChange={(e) => setNoOfData(e.target.value)}
           />{" "}

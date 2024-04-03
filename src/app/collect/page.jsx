@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import axios from "axios";
 import { useState } from "react";
@@ -35,8 +35,10 @@ export default function CollectData() {
   const handleSendData = async () => {
     console.log("Send data to the server");
 
-    if (!position.latitude || !position.longitude)
+    if (!position.latitude || !position.longitude) {
+      alert("No data to send, reset the location permission and try again.");
       return console.error("No data to send");
+    }
 
     const url = `https://api.thingspeak.com/update?api_key=6Q2U99CFB05024LM&field7=${position.latitude}&field8=${position.longitude}`;
 
@@ -50,9 +52,9 @@ export default function CollectData() {
   };
 
   return (
-    <div className="flex h-screen justify-center items-center flex-col">
+    <div className="flex flex-col items-center justify-center h-screen">
       <button
-        className="border py-2 px-4 rounded-lg bg-violet-300"
+        className="px-4 py-2 border rounded-lg bg-violet-300"
         onClick={handleSendData}
       >
         Send Data

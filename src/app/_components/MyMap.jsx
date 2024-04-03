@@ -1,4 +1,12 @@
-import { MapContainer, Marker, Popup, TileLayer, Tooltip } from "react-leaflet";
+import {
+  LayerGroup,
+  LayersControl,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  Tooltip,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -20,10 +28,32 @@ export default function MyMap({ positions }) {
       className="mx-4"
       zoom={13}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <LayersControl>
+        <LayersControl.BaseLayer name="Open Street Map">
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+        </LayersControl.BaseLayer>
+
+        <LayersControl.BaseLayer checked name="Google Map">
+          <TileLayer
+            attribution="Google Maps"
+            url="https://www.google.cn/maps/vt?lyrs=m@189&gl=cn&x={x}&y={y}&z={z}"
+          />
+        </LayersControl.BaseLayer>
+
+        <LayersControl.BaseLayer name="Google Map Satellite">
+          <LayerGroup>
+            <TileLayer
+              attribution="Google Maps Satellite"
+              url="https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
+            />
+            <TileLayer url="https://www.google.cn/maps/vt?lyrs=y@189&gl=cn&x={x}&y={y}&z={z}" />
+          </LayerGroup>
+        </LayersControl.BaseLayer>
+      </LayersControl>
+
       {positions.map((pos) => (
         <Marker
           key={`marker-${pos.lat}-${pos.long}`}
@@ -32,4 +62,21 @@ export default function MyMap({ positions }) {
       ))}
     </MapContainer>
   );
+}
+
+function Square(props) {
+  const context = useLeafletContext();
+
+  useEffect(() => {
+    const bounds = L.latLng(props.center).toBounds(props.size);
+    const square = new L.Rectangle(bounds);
+    const container = context.layerContainer || context.map;
+    container.addLayer(square);
+
+    return () => {
+      container.removeLayer(square);
+    };
+  });
+
+  return null;
 }
